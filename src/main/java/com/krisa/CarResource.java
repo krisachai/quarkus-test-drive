@@ -44,10 +44,8 @@ public class CarResource {
 
     @GET
     public Response findAll(@BeanParam @Valid PageRequest page, @DefaultValue("") @QueryParam("name") String name) {
-
         PanacheQuery<Car> cars = cr.find("model like ?1", "%" + name + "%");
         cars.page(Page.of(page.getPage(), page.getSize()));
-
         return Response.ok(new PagedResponse<Car>(cars)).build();
     }
 
@@ -55,11 +53,8 @@ public class CarResource {
     @Transactional
     @Consumes(MediaType.APPLICATION_JSON)
     public Response insert(@Valid Car car) {
-
         cr.persist(car);
-
         LOG.info(car.getManufacturer());
-
         return Response.ok(car).status(Status.CREATED).build();
     }
 }
